@@ -4,7 +4,6 @@
 		<view class="content">
 			<view class="title">注册账号</view>
 			<u--form labelPosition="left" ref="form1">
-
 				<u-form-item>
 					用户名：
 					<u-input v-model="username" placeholder="请输入用户名" />

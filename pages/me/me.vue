@@ -32,7 +32,7 @@
 				</u-col>
 			</u-row>
 			<u-gap height="150"></u-gap>
-			
+			<u-button text="管理类别" @click="goCategory()" class="btn1"></u-button>
 			<u-button text="消费情况" @click="analyse()" class="btn1"></u-button>
 			<u-button text="修改资料" @click="edit()" class="btn1"></u-button>
 			<u-button v-if="token" text="退出登录" @click="logout()" class="btn1"></u-button>
@@ -103,6 +103,12 @@
 			},
 			analyse(){
 				
+			},
+			goCategory(){
+				this.$u.route({
+					type: 'navigateTo',
+					url: '/pages/category/category'
+				})
 			},
 			logout() {
 				//删除Token,跳转到登录页

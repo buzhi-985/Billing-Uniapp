@@ -65,7 +65,23 @@
 			}
 		},
 		onShow() {
-			this.getCategory()
+			if(uni.getStorageSync("auth-token")!=""){
+				this.getCategory()
+			}else{
+				uni.showToast({
+					title: "请登录",
+					icon: 'none',
+				})
+				this.$u.route({
+					type: 'navigateTo',
+					url: '/pages/login/login',
+					
+					complete(){
+						console.log("完成")
+					}
+				})
+			}
+			
 			// console.log(this.action)
 
 		},
@@ -175,6 +191,7 @@
 			},
 			submit() {
 				// console.log(this.billmodel)
+				// this.billmodel.photos.join(";")
 				uni.$u.http.post(
 					'bill/add/' + uni.getStorageSync("uid"), this.billmodel, {
 						/* 会加在url上 */
@@ -184,7 +201,7 @@
 						/* 会与全局header合并，如有同名属性，局部覆盖全局 */
 						dataType: 'json',
 					}).then(res => {
-					// console.log(res.data.data)
+					console.log(res.data)
 					uni.showToast({
 						title: res.data.msg,
 						icon: 'none',
@@ -197,6 +214,16 @@
 					console.log(err)
 				})
 				//清除所有的信息
+				this.ResetModel()
+			},
+			ResetModel(){
+				this.billmodel = {
+					goods: "",
+					category: "",
+					consumeDate: Number(new Date()),
+					money: 0,
+					photos: []
+				}
 			}
 
 		}
