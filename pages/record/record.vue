@@ -28,14 +28,13 @@
 				</u-form-item>
 				<u-form-item>
 					照片：
-					<u-upload :fileList="fileList1" @afterRead="afterRead" 
-					@delete="deletePic" name="1" multiple
-						:maxCount="5"></u-upload>
+					<u-upload :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple
+						:maxCount="5" :previewFullImage="true"></u-upload>
 				</u-form-item>
 				<button @click="submit" :class="'changeType'">提交</button>
 			</u--form>
 		</view>
-		<text> 一个表单，可以选择时间，分类，图片 </text>
+		<!-- <text> 一个表单，可以选择时间，分类，图片 </text> -->
 	</view>
 
 
@@ -58,6 +57,9 @@
 				],
 				timeshow: false,
 				cateshow: false,
+				//是否为修改
+				editFlag: false,
+				editModel: "",
 				//后端图片上床地址
 				action: uni.$u.http.config.baseURL + "file/up1",
 				listImg: [], // 显示的图片列表，数组元素为对象，必须提供url属性
@@ -65,9 +67,9 @@
 			}
 		},
 		onShow() {
-			if(uni.getStorageSync("auth-token")!=""){
+			if (uni.getStorageSync("auth-token") != "") {
 				this.getCategory()
-			}else{
+			} else {
 				uni.showToast({
 					title: "请登录",
 					icon: 'none',
@@ -75,15 +77,36 @@
 				this.$u.route({
 					type: 'navigateTo',
 					url: '/pages/login/login',
-					
-					complete(){
+
+					complete() {
 						console.log("完成")
 					}
 				})
 			}
-			
+
 			// console.log(this.action)
 
+		},
+		onLoad(option) {
+			// 接收传递的参数
+			const item = JSON.parse(decodeURIComponent(option.item? option.item : '{}'));
+			
+			if(item){
+				this.editModel = item
+				console.log(item)
+				this.billmodel.goods = item.goods
+				this.billmodel.category = item.category
+				this.billmodel.consumeDate = item.consumeDate
+				this.billmodel.money = item.money
+				this.billmodel.photos = item.photos
+				
+				let phList = item.photos.split(",")
+				for(let i=0;i< phList.length;i++){
+					this.fileList1.push({"url":phList[i]})
+				}
+				this.editFlag = true
+				console.log('上一个页面传递过来的参数', 'item');
+			}
 		},
 		methods: {
 			// 删除图片
@@ -92,8 +115,8 @@
 				// index 必需。整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。
 				// howmany 必需。要删除的项目数量。
 				this[`fileList${event.name}`].splice(event.index, 1)
-				this.billmodel.photos.splice(event.index,1)
-				console.log(event)
+				this.billmodel.photos.splice(event.index, 1)
+				// console.log(event)
 				console.log(this.billmodel)
 			},
 			// 新增图片
@@ -122,7 +145,7 @@
 			uploadFilePromise(url) {
 				// console.log("上传")
 				return new Promise((resolve, reject) => {
-					let that =this.billmodel
+					let that = this.billmodel
 					let a = uni.uploadFile({
 						url: this.action, // 仅为示例，非真实的接口地址
 						filePath: url,
@@ -144,8 +167,8 @@
 				// console.log(id)
 				for (let item of this.cateList[0]) {
 					if (item.id === id) {
-						console.log(item.id === id)
-						console.log(item.name)
+						// console.log(item.id === id)
+						// console.log(item.name)
 						return item.name.toString();
 					}
 				}
@@ -179,7 +202,7 @@
 					}).then(res => {
 					// console.log(res.data)
 					for (let item of res.data.data) {
-						console.log(item.id + item.name)
+						// console.log(item.id + item.name)
 						this.cateList[0].push({
 							"id": item.id,
 							"name": item.name
@@ -192,31 +215,56 @@
 			submit() {
 				// console.log(this.billmodel)
 				// this.billmodel.photos.join(";")
-				uni.$u.http.post(
-					'bill/add/' + uni.getStorageSync("uid"), this.billmodel, {
-						/* 会加在url上 */
-						header: {
-							token: uni.getStorageSync("auth-token"),
-						},
-						/* 会与全局header合并，如有同名属性，局部覆盖全局 */
-						dataType: 'json',
-					}).then(res => {
-					console.log(res.data)
-					uni.showToast({
-						title: res.data.msg,
-						icon: 'none',
+				if(this.editFlag){
+					uni.$u.http.post(
+						'bill/update/' + this.editModel.id, this.billmodel, {
+							/* 会加在url上 */
+							header: {
+								token: uni.getStorageSync("auth-token"),
+							},
+							/* 会与全局header合并，如有同名属性，局部覆盖全局 */
+							dataType: 'json',
+						}).then(res => {
+						// console.log(res.data)
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+						})
+					}).catch(err => {
+						uni.showToast({
+							title: "异常，添加失败",
+							icon: 'none',
+						})
+						console.log(err)
 					})
-				}).catch(err => {
-					uni.showToast({
-						title: "异常，添加失败",
-						icon: 'none',
+				}else{
+					uni.$u.http.post(
+						'bill/add/' + uni.getStorageSync("uid"), this.billmodel, {
+							/* 会加在url上 */
+							header: {
+								token: uni.getStorageSync("auth-token"),
+							},
+							/* 会与全局header合并，如有同名属性，局部覆盖全局 */
+							dataType: 'json',
+						}).then(res => {
+						// console.log(res.data)
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+						})
+					}).catch(err => {
+						uni.showToast({
+							title: "异常，添加失败",
+							icon: 'none',
+						})
+						console.log(err)
 					})
-					console.log(err)
-				})
+				}
+				
 				//清除所有的信息
 				this.ResetModel()
 			},
-			ResetModel(){
+			ResetModel() {
 				this.billmodel = {
 					goods: "",
 					category: "",
@@ -224,6 +272,8 @@
 					money: 0,
 					photos: []
 				}
+				this.fileList1=[]
+				this.editFlag = false
 			}
 
 		}

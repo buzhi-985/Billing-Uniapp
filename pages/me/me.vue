@@ -36,10 +36,9 @@
 			<u-button text="消费情况" @click="analyse()" class="btn1"></u-button>
 			<u-button text="修改资料" @click="edit()" class="btn1"></u-button>
 			<u-button v-if="token" text="退出登录" @click="logout()" class="btn1"></u-button>
-
-
+			
 		</view>
-
+		<view class="footer"></view>
 	</view>
 </template>
 
@@ -134,31 +133,36 @@
 
 <style lang="scss">
 	.root {
-
-
+		background-color: #fdffe7;
+		background: #efffc2;
 		.head {
 			.pic {
 				padding-left: 50rpx;
 				padding-top: 20rpx;
 			}
 
-			background: blanchedalmond;
+			// background: blanchedalmond;
 		}
-
+		.footer{
+			background: #efffc2;
+		}
 		.body {
+			
 			.record {
 				font-size: 18px;
 				color: black;
 			}
 			
 			.btn1{
-				background-color: rgb(255,215,124);
+				// background-color: rgb(255,215,124);
+				background-color: #efffc2;
 				border: none;
 				font-size: 30rpx;
 				padding: 12rpx 0;
 				
 				&::after {
 					border: none;
+					
 				}
 			}
 

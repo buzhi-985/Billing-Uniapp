@@ -189,6 +189,7 @@
 					/* 会加在url上 */
 					header: {
 						token: uni.getStorageSync("auth-token"),
+						uid: uni.getStorageSync("uid")
 					},
 					/* 会与全局header合并，如有9同名属性，局部覆盖全局 */
 					dataType: 'json',
