@@ -88,10 +88,10 @@
 
 		},
 		onLoad(option) {
-			// 接收传递的参数
-			const item = JSON.parse(decodeURIComponent(option.item? option.item : '{}'));
-			
-			if(item){
+			console.log(option)
+			if(option){
+				// 接收传递的参数
+				const item = JSON.parse(decodeURIComponent(option.item? option.item : '{}'));
 				this.editModel = item
 				console.log(item)
 				this.billmodel.goods = item.goods
@@ -102,7 +102,10 @@
 				
 				let phList = item.photos.split(",")
 				for(let i=0;i< phList.length;i++){
-					this.fileList1.push({"url":phList[i]})
+					if(phList[i]!=""){
+						this.fileList1.push({"url":phList[i]})
+					}
+					
 				}
 				this.editFlag = true
 				console.log('上一个页面传递过来的参数', 'item');

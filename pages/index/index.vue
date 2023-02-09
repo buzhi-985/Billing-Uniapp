@@ -33,6 +33,7 @@
 				<u-button @click="eidtBill(item)" class="btn1">编辑</u-button>
 				<u-button @click="delBill(item)" class="btn1">删除</u-button>
 			</view>
+			<u-back-top :scroll-top="scrollTop"></u-back-top>
 			<u-popup :show="delshow" :round="8" mode="center">
 				<view class="tan">
 					<u--text text="是否删除?" size="20"></u--text>
@@ -66,10 +67,20 @@
 					money: 0,
 					photos: []
 				},
+				scrollTop: 0
 			}
+		},
+		onPageScroll(e) {
+			this.scrollTop = e.scrollTop;
 		},
 		onLoad() {
 
+		},
+		async onReachBottom() {
+			console.log("onReachBottom");
+			this.pageNum+=1;
+			console.log(this.pageNum)
+			this.getBill()
 		},
 		onShow() {
 			// /*开发暂时注释
@@ -185,9 +196,12 @@
 			},
 			//字符串转数组
 			toList(item) {
-				let list = [];
-				list = item.split(",")
-				return list
+				if(item !=null){
+					let list = [];
+					list = item.split(",")
+					return list
+				}
+
 			},
 			getInfo() {
 				uni.$u.http.get(
@@ -262,7 +276,9 @@
 					}
 				).then(res => {
 					console.log(res.data)
-					this.dta = res.data.data
+					//合并数组
+					this.dta=[...this.dta,...res.data.data]
+					// this.dta.concat(res.data.data)
 				}).catch(err => {
 					console.log(err)
 				})

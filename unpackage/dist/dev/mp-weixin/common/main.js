@@ -102,7 +102,8 @@ __webpack_require__.r(__webpack_exports__);
 {
   // 设置全局变量
   globalData: {
-    token: uni.getStorageSync("auth-token") },
+    token: uni.getStorageSync("auth-token"),
+    uid: uni.getStorageSync("uid") },
 
   onLaunch: function onLaunch() {
     console.log('App Launch');
@@ -119,6 +120,10 @@ __webpack_require__.r(__webpack_exports__);
       uni.setStorage({
         key: 'auth-token',
         data: res.data.data.token });
+
+
+      getApp().globalData.token = res.data.data.token;
+
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

@@ -3,7 +3,11 @@
     "pages/index/index",
     "pages/record/record",
     "pages/me/me",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/signup/signup",
+    "pages/category/category",
+    "pages/test/test",
+    "pages/eidtInfo/eidtInfo"
   ],
   "subPackages": [],
   "window": {

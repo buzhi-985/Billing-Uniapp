@@ -185,7 +185,7 @@
 				let url = "";
 				if (id) url = "cate/update/" + id;
 				else url = "cate/add/"+uni.getStorageSync("uid");
-				uni.$u.http.post(url, this.cateModel, {
+				await uni.$u.http.post(url, this.cateModel, {
 					/* 会加在url上 */
 					header: {
 						token: uni.getStorageSync("auth-token"),

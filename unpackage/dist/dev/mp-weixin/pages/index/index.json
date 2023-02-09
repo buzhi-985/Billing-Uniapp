@@ -1,5 +1,16 @@
 {
   "navigationBarTitleText": "不知记账",
   "enablePullDownRefresh": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "u-row": "/node-modules/uview-ui/components/u-row/u-row",
+    "u-col": "/node-modules/uview-ui/components/u-col/u-col",
+    "u-text": "/node-modules/uview-ui/components/u-text/u-text",
+    "u-datetime-picker": "/node-modules/uview-ui/components/u-datetime-picker/u-datetime-picker",
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
+    "u--text": "/node-modules/uview-ui/components/u--text/u--text",
+    "u-album": "/node-modules/uview-ui/components/u-album/u-album",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "u-gap": "/node-modules/uview-ui/components/u-gap/u-gap"
+  }
 }

@@ -11,7 +11,8 @@
 			"style": {
 				// custorm 取消顶部的 navBar 显示
 				"navigationBarTitleText": "不知记账",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"onReachBottonDistance":50    // 距离底部50px时，触发onReachBottom事件
 			}
 		},
 		{
@@ -65,6 +66,42 @@
 		    }
 		    
 		}
+        ,{
+            "path" : "pages/eidtInfo/eidtInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+		    "path" : "pages/ec/ec",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+        ,{
+            "path" : "pages/derive/derive",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/statistics/statistics",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 			"color": "#000",

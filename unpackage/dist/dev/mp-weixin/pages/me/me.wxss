@@ -24,18 +24,33 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.head {
-  background: blanchedalmond;
+.root {
+  background-color: #fdffe7;
+  background: #efffc2;
 }
-.head .pic {
+.root .head .pic {
   padding-left: 50rpx;
   padding-top: 20rpx;
 }
-.body {
-  background: blanchedalmond;
+.root .footer {
+  background: #efffc2;
 }
-.body .record {
+.root .body .record {
   font-size: 18px;
   color: black;
+}
+.root .body .tan {
+  padding: 50rpx 50rpx 50rpx 50rpx;
+  height: 400rpx;
+  width: 400rpx;
+}
+.root .body .btn1 {
+  background-color: #efffc2;
+  border: none;
+  font-size: 30rpx;
+  padding: 12rpx 0;
+}
+.root .body .btn1::after {
+  border: none;
 }
 

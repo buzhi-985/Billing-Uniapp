@@ -154,7 +154,7 @@
 
 			.getSmsCode {
 				background-color: rgb(253, 243, 208);
-				color: $u-tips-color;
+				// color: $u-tips-color;
 				border: none;
 				font-size: 30rpx;
 				padding: 12rpx 0;
