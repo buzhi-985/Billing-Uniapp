@@ -9,6 +9,7 @@ Vue.use(uView);
 uni.$u.http.setConfig((config) => {
     /* config 为默认全局配置*/
     config.baseURL = `http://localhost:8080/`; /* 根域名 */
+    // config.baseURL = `http://106.53.108.157:80/`; /* 根域名 */
     // config.baseURL = `/api`; /* 根域名 */
 	// config.header= { "Access-Control-Allow-Origin": '*'}
     return config

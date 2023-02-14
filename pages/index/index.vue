@@ -85,12 +85,14 @@
 		onShow() {
 			// /*开发暂时注释
 			if (uni.getStorageSync("auth-token") != "") {
-				this.getInfo()
-				this.getBill()
-				this.getCategory()
-				for (var i = 0; i < this.dta.length; i++) {
-					console.log(this.dta[i].photos)
-				}
+				//清除原有数据
+				this.dta = [];
+				this.getInfo();
+				this.getBill();
+				this.getCategory();
+				// for (var i = 0; i < this.dta.length; i++) {
+				// 	console.log(this.dta[i].photos)
+				// }
 
 			} else {
 				uni.showToast({
@@ -105,9 +107,13 @@
 			// */
 		},
 		methods: {
+			timeToTimestamp(time) {
+				return new Date(time).getTime();
+			},
 			eidtBill(item) {
 				// this.editshow =true
 				console.log(item)
+				item.consumeDate = this.timeToTimestamp(item.consumeDate);
 				// uni.$u.route({
 				// 	url: 'pages/record/record',
 				// 	type: "switchTab",
@@ -257,8 +263,11 @@
 			},
 			confirm() {
 				this.show = false;
+				//先清除原有数据
+				this.dta = [];
+				this.pageNum=1;
 				//确定之后才会更改，所以要在
-				this.getBill()
+				this.getBill();
 			},
 			getBill() {
 				uni.$u.http.post(

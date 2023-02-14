@@ -76,10 +76,10 @@
     // 		"disableHostCheck": true,
     // 		"proxy": {
     // 			"/api": {
-    // 				"target": "http://localhost:8080", //自己项目接口域名
+    // 				"target": "http://106.53.108.157", //自己项目接口域名
     // 				"changeOrigin": true, //是否跨域
     // 				"secure": false, // 设置支持https协议的代理
-    // 				"pathRewrite": {"^/api":""}   //api路径重定向，根据具体情况调整，也可不写
+    // 				"pathRewrite": {"^/":""}   //api路径重定向，根据具体情况调整，也可不写
     // 			}
     // 		}
     // 	},

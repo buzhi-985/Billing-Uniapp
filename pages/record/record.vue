@@ -32,7 +32,9 @@
 						:maxCount="5" :previewFullImage="true"></u-upload>
 				</u-form-item>
 				<button @click="submit" :class="'changeType'">提交</button>
+				
 			</u--form>
+			<button v-if="editFlag" @click="back" :class="'changeType'">取消编辑</button>
 		</view>
 		<!-- <text> 一个表单，可以选择时间，分类，图片 </text> -->
 	</view>
@@ -69,6 +71,7 @@
 		onShow() {
 			if (uni.getStorageSync("auth-token") != "") {
 				this.getCategory()
+
 			} else {
 				uni.showToast({
 					title: "请登录",
@@ -88,30 +91,39 @@
 
 		},
 		onLoad(option) {
-			console.log(option)
-			if(option){
+			console.log(option.item)
+			if(option.item!=null){
 				// 接收传递的参数
 				const item = JSON.parse(decodeURIComponent(option.item? option.item : '{}'));
 				this.editModel = item
-				console.log(item)
+				// console.log(item)
 				this.billmodel.goods = item.goods
 				this.billmodel.category = item.category
 				this.billmodel.consumeDate = item.consumeDate
 				this.billmodel.money = item.money
-				this.billmodel.photos = item.photos
-				
-				let phList = item.photos.split(",")
-				for(let i=0;i< phList.length;i++){
-					if(phList[i]!=""){
-						this.fileList1.push({"url":phList[i]})
+
+				if(item.photos !=null){
+					let phList = item.photos.split(",")
+					for(let i=0;i< phList.length;i++){
+						if(phList[i]!=""){
+							this.fileList1.push({"url":phList[i]})
+						}
+						
 					}
-					
+				}else{
+					item.photos = ''
 				}
+				this.billmodel.photos = item.photos
 				this.editFlag = true
-				console.log('上一个页面传递过来的参数', 'item');
+				console.log('上一个页面传递过来的参数', item);
 			}
 		},
 		methods: {
+			//取消编辑
+			back(){
+				
+				this.ResetModel();
+			},
 			// 删除图片
 			deletePic(event) {
 				//splice() 方法向/从数组指定位置添加/删除项目，然后返回被删除的项目。
@@ -149,16 +161,24 @@
 				// console.log("上传")
 				return new Promise((resolve, reject) => {
 					let that = this.billmodel
+					console.log(that)
 					let a = uni.uploadFile({
 						url: this.action, // 仅为示例，非真实的接口地址
 						filePath: url,
 						name: 'file',
 						formData: {
-							user: 'test'
+							// user: 'test'
 						},
 						success: (res) => {
 							console.log(JSON.parse(res.data).data)
-							that.photos.push(JSON.parse(res.data).data)
+							if(that.photos==null){
+								let li = []
+								li.push(JSON.parse(res.data).data)
+								that.photos = li
+							}else{
+								that.photos.push(JSON.parse(res.data).data)
+							}
+							
 							setTimeout(() => {
 								resolve(res.data.data)
 							}, 1000)
@@ -275,8 +295,8 @@
 					money: 0,
 					photos: []
 				}
-				this.fileList1=[]
-				this.editFlag = false
+				this.fileList1=[];
+				this.editFlag = false;
 			}
 
 		}
