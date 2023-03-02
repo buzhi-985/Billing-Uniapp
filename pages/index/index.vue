@@ -82,14 +82,18 @@
 			console.log(this.pageNum)
 			this.getBill()
 		},
-		onShow() {
+		async onShow() {
 			// /*开发暂时注释
 			if (uni.getStorageSync("auth-token") != "") {
-				//清除原有数据
-				this.dta = [];
-				this.getInfo();
-				this.getBill();
-				this.getCategory();
+				//清除原有数据，清除之后看图片数据会没有
+				// this.dta = [];
+				if(this.dta==null){
+					await this.getInfo();
+					await this.getBill();
+					await this.getCategory();
+				}
+				
+
 				// for (var i = 0; i < this.dta.length; i++) {
 				// 	console.log(this.dta[i].photos)
 				// }
@@ -166,8 +170,8 @@
 				this.delId = item.id;
 			},
 			//获取分类
-			getCategory() {
-				uni.$u.http.post(
+			async getCategory() {
+				await uni.$u.http.post(
 					'cate/get/' + uni.getStorageSync("uid"), {}, {
 						/* 会加在url上 */
 						header: {
@@ -209,8 +213,8 @@
 				}
 
 			},
-			getInfo() {
-				uni.$u.http.get(
+			async getInfo() {
+				await uni.$u.http.get(
 					'/user/info', {
 						params: {},
 						header: {
@@ -268,9 +272,11 @@
 				this.pageNum=1;
 				//确定之后才会更改，所以要在
 				this.getBill();
+				this.getInfo()
+				// console.log(this.logo)
 			},
-			getBill() {
-				uni.$u.http.post(
+			async getBill() {
+				await uni.$u.http.post(
 					'/bill/get', {
 						uid: uni.getStorageSync("uid"),
 						consumeDate: this.formatDate(this.value1),

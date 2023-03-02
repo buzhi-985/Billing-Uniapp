@@ -12,7 +12,7 @@
 				// custorm 取消顶部的 navBar 显示
 				"navigationBarTitleText": "不知记账",
 				"enablePullDownRefresh": true,
-				"onReachBottonDistance":50    // 距离底部50px时，触发onReachBottom事件
+				"onReachBottonDistance":0    // 距离底部50px时，触发onReachBottom事件
 			}
 		},
 		{

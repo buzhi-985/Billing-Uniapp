@@ -12,16 +12,17 @@
 				<view class="page-main-list" v-for="(item,index) in cateList" :key="index" :data="cateList">
 					<u-row customStyle="margin-bottom: 10px">
 						<u-col span="5">
-							<u-cell :title="`${index + 1} ${item.name}`">
+							<u-cell :title="`${index + 1} ${item.name}-备注：${item.note}`">
 							</u-cell>
 						</u-col>
-						<u-col span="1">
+						<u-col span="2">
 						</u-col>
 						<u-button @click="editCate(item)" v-if="doIf(item)" type="primary" text="编辑" shape="circle">
 						</u-button>
 						<u-button @click="deleteCate(item)" v-if="doIf(item)" text="删除" type="error" shape="circle">
 						</u-button>
 					</u-row>
+
 				</view>
 
 			</scroll-view>
@@ -40,7 +41,7 @@
 					<u-button v-if="!flag" @click='doEdit()' type="primary" text="提交" shape="circle"></u-button>
 					<u-button v-if="flag" @click='doEdit("new")' type="primary" text="提交" shape="circle"></u-button>
 					<u-gap height="20"></u-gap>
-					<u-button @click="cateshow=false" type="primary" text="取消" shape="circle"></u-button>
+					<u-button @click="cancelEdit()" type="primary" text="取消" shape="circle"></u-button>
 				</view>
 			</u-popup>
 		</view>
@@ -71,6 +72,14 @@
 			this.getCategory()
 		},
 		methods: {
+			cancelEdit(){
+				this.cateModel = {
+					name: "",
+					note: "",
+					id: ""
+				};
+				this.cateshow=false;
+			},
 			showError() {
 				uni.showToast({
 					title: "异常",
@@ -89,13 +98,14 @@
 						/* 会与全局header合并，如有9同名属性，局部覆盖全局 */
 						dataType: 'json',
 					}).then(res => {
-					// console.log(res.data)
+					console.log(res.data)
 					for (let item of res.data.data) {
 						// console.log(item.id + item.name)
 						this.cateList.push({
 							"uid": item.uid,
 							"id": item.id,
-							"name": item.name
+							"name": item.name,
+							"note": item.note==null?"":item.note
 						})
 					}
 				}).catch(err => {
@@ -148,6 +158,12 @@
 			editCate(item) {
 				this.cateshow = true
 				this.cateModel.id = item.id;
+				for(let it of this.cateList){
+					if(it.id == this.cateModel.id){
+						this.cateModel.name = item.name;
+						break;
+					}
+				}
 			},
 			async doEdit(name) {
 				// console.log(name)
@@ -258,8 +274,8 @@
 	}
 
 	.page-main-list {
-		height: 80rpx;
-		line-height: 80rpx;
+		height: 100rpx;
+		line-height: 100rpx;
 		text-align: center;
 		// background: #e0e0e0;
 

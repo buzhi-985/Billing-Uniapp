@@ -36,7 +36,6 @@
 			</u--form>
 			<button v-if="editFlag" @click="back" :class="'changeType'">取消编辑</button>
 		</view>
-		<!-- <text> 一个表单，可以选择时间，分类，图片 </text> -->
 	</view>
 
 
@@ -132,7 +131,7 @@
 				this[`fileList${event.name}`].splice(event.index, 1)
 				this.billmodel.photos.splice(event.index, 1)
 				// console.log(event)
-				console.log(this.billmodel)
+				// console.log(this.billmodel)
 			},
 			// 新增图片
 			async afterRead(event) {
